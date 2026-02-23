@@ -2,28 +2,141 @@
 <html>
 <head>
     <title>Exam Prediction App</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            background-image: "C:\Users\prosp\Downloads\bg.jpg";
+            font-family: Arial, sans-serif;
+            background-color: #f2f6fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;   /* Center horizontally */
+        }
+
+        .content {
+            width: 500px;              /* Control form width */
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        p {
+            text-align: center;
+            color: #555;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eafaf1;
+            border-left: 5px solid #2ecc71;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h2>Enter Student Details</h2>
+<div class="wrapper">
+<div class="content">
+
+    <h2>Exam Prediction App</h2>
+    <p>Fill in your form to predict your results</p>
 
     <form action="/predict" method="post">
-        <input type="number" name="StudyHours" placeholder="Study Hours" required><br><br>
-        <input type="number" name="Attendance" placeholder="Attendance" required><br><br>
-        <input type="number" name="Resources" placeholder="Resources" required><br><br>
-        <input type="number" name="Internet" placeholder="Internet" required><br><br>
-        <input type="number" name="Gender" placeholder="Gender" required><br><br>
-        <input type="number" name="Age" placeholder="Age" required><br><br>
-        <input type="number" name="AssignmentCompletion" placeholder="Assignment Completion" required><br><br>
-        <input type="number" name="OnlineCourses" placeholder="Online Courses" required><br><br>
-        <input type="number" name="StressLevel" placeholder="Stress Level" required><br><br>
+
+        <label>How many hours did you study?</label>
+        <input type="number" name="StudyHours" required>
+
+        <label>What is your attendance percentage?</label>
+        <input type="number" name="Attendance" required>
+
+        <label>Do you have the resources?</label>
+        <select name="Resources" required>
+            <option value="0">No Resources</option>
+            <option value="1">Some Resources</option>
+            <option value="2">Many Resources</option>
+        </select>
+
+        <label>Do you have access to the internet?</label>
+        <select name="Internet" required>
+            <option value="0">No Internet</option>
+            <option value="1">Yes</option>
+        </select>
+
+        <label>What is your gender?</label>
+        <select name="Gender" required>
+            <option value="0">Female</option>
+            <option value="1">Male</option>
+        </select>
+
+        <label>What is your age?</label>
+        <input type="number" name="Age" required>
+
+        <label>How many assignments did you complete?</label>
+        <input type="number" name="AssignmentCompletion" required>
+
+        <label>How many online courses did you take?</label>
+        <input type="number" name="OnlineCourses" required>
+
+        <label>What is your stress level?</label>
+        <select name="StressLevel" required>
+            <option value="0">Low</option>
+            <option value="1">Medium</option>
+            <option value="2">High</option>
+        </select>
 
         <button type="submit">Predict</button>
+
     </form>
 
     {% if prediction_text %}
-        <h3>Prediction Result: {{ prediction_text }}</h3>
+        <div class="result">
+            Prediction Result: {{ prediction_text }}
+        </div>
     {% endif %}
+
+</div>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+
+    
+
+    <div class="tabs">
+
+        <h1>Your Result Is</h1>
+        
+
+        <div class="tab-content" id="result">
+            <div class="result-box" data-pred="{{ prediction_text|e }}">
+                <span class="result-text">{{ prediction_text }}</span>
+                <span id="result-emoji" class="result-emoji" aria-hidden="true"></span>
+                
+            </div>
+        </div>
+
+       
+        <div style="margin-top:18px; text-align:center;">
+            <a href="/">Go Back</a>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const buttons = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
+        function activate(tab){
+            buttons.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            contents.forEach(c => c.classList.toggle('active', c.id === tab));
+        }
+        buttons.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
+        activate('result');
+
+        // Emoji logic for results
+        function chooseEmoji(text){
+            if(!text) return '🎯';
+            const t = String(text).toLowerCase();
+            if(/\b(pass|passed|promoted|success|excellent|distinction|good)\b/.test(t)) return '✅';
+            if(/\b(fail|failed|unsatisfactory|error|deficient)\b/.test(t)) return '❌';
+            if(/\b(average|moderate|ok|fine)\b/.test(t)) return '⚖️';
+            const m = t.match(/-?\d+\.?\d*/);
+            if(m){
+                const n = parseFloat(m[0]);
+                if(!isNaN(n)){
+                    if(n == 0) return '🏆';
+                    if(n == 1) return '👍';
+                    if(n == 2) return '⚠️';
+                    return '❌';
+                }
+            }
+            // default celebratory emoji
+            return '🎉';
+        }
+
+        const resultBox = document.querySelector('.result-box');
+        if(resultBox){
+            const pred = resultBox.dataset.pred || '';
+            const emoji = chooseEmoji(pred);
+            const span = document.getElementById('result-emoji');
+            if(span){
+                span.textContent = emoji;
+                span.setAttribute('aria-label', 'result emoji');
+            }
+        }
+    });
+    </script>
+
+</body>
+</html>
