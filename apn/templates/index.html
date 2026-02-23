@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Exam Prediction App</title>
+    <title>Results Prediction App</title>
      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <style>
@@ -79,9 +79,10 @@
 <div class="wrapper">
 <div class="content">
 
-    <h2>Exam Prediction App</h2>
+    <h2>Results Prediction App</h2>
     <p>Fill in your form to predict your results</p>
 
+    <div class= "tabs">
     <form action="/predict" method="post">
 
         <label>How many hours did you study?</label>
@@ -112,7 +113,7 @@
         <label>What is your age?</label>
         <input type="number" name="Age" required>
 
-        <label>How many assignments did you complete?</label>
+        <label>Assignment Completion rate(out of 100)?</label>
         <input type="number" name="AssignmentCompletion" required>
 
         <label>How many online courses did you take?</label>
@@ -128,6 +129,7 @@
         <button type="submit">Predict</button>
 
     </form>
+    </div>
 
     {% if prediction_text %}
         <div class="result">

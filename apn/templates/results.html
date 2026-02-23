@@ -3,28 +3,216 @@
 <head>
     <title>Prediction Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .tab-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .tab-button {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+            color: #2c3e50;
+            border: 2px solid #bdc3c7;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: linear-gradient(135deg, #d5dce0 0%, #a8aeb5 100%);
+            border-color: #95a5a6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border-color: #2980b9;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .details-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .details-table th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .details-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 15px;
+        }
+        .details-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        .details-table tr:nth-child(even):hover {
+            background-color: #f0f3f5;
+        }
+        .details-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .details-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .download-btn:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1f618d 100%);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .result-box {
+            padding: 40px 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ecf0f1 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .result-text {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .result-emoji {
+            font-size: 64px;
+            display: block;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    
-
-    
-
     <div class="tabs">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="result">
+                ✅ Prediction Result
+            </button>
+            <button class="tab-button" data-tab="details">
+                📋 Entered Details
+            </button>
+        </div>
 
         <h1>Your Result Is</h1>
-        
 
-        <div class="tab-content" id="result">
+        <div class="tab-content active" id="result">
             <div class="result-box" data-pred="{{ prediction_text|e }}">
                 <span class="result-text">{{ prediction_text }}</span>
                 <span id="result-emoji" class="result-emoji" aria-hidden="true"></span>
-                
+            </div>
+            <div class="button-container">
+                <a href="/download_result" class="download-btn">📄 Download as PDF</a>
             </div>
         </div>
 
-       
-        <div style="margin-top:18px; text-align:center;">
-            <a href="/">Go Back</a>
+        <div class="tab-content" id="details">
+            {% if details %}
+            <table class="details-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for key, value in details.items() %}
+                    <tr>
+                        <td><strong>{{ key }}</strong></td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+
+        <div style="margin-top:30px; text-align:center;">
+            <a href="/" style="color: #3498db; text-decoration: none; font-weight: 600; font-size: 16px; padding: 10px 20px; border: 2px solid #3498db; border-radius: 6px; transition: all 0.3s ease; display: inline-block;"
+               onmouseover="this.style.background='#3498db'; this.style.color='white';"
+               onmouseout="this.style.background='transparent'; this.style.color='#3498db';">
+                ← Back to Home
+            </a>
         </div>
     </div>
 
@@ -32,10 +220,12 @@
     document.addEventListener('DOMContentLoaded', function(){
         const buttons = document.querySelectorAll('.tab-button');
         const contents = document.querySelectorAll('.tab-content');
+        
         function activate(tab){
             buttons.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
             contents.forEach(c => c.classList.toggle('active', c.id === tab));
         }
+        
         buttons.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
         activate('result');
 
@@ -45,7 +235,7 @@
             const t = String(text).toLowerCase();
             if(/\b(pass|passed|promoted|success|excellent|distinction|good)\b/.test(t)) return '✅';
             if(/\b(fail|failed|unsatisfactory|error|deficient)\b/.test(t)) return '❌';
-            if(/\b(average|moderate|ok|fine)\b/.test(t)) return '⚖️';
+            if(/\b(average|moderate|ok|satisfactory)\b/.test(t)) return '⚖️';
             const m = t.match(/-?\d+\.?\d*/);
             if(m){
                 const n = parseFloat(m[0]);
@@ -56,7 +246,6 @@
                     return '❌';
                 }
             }
-            // default celebratory emoji
             return '🎉';
         }
 
