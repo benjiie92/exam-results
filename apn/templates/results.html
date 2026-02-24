@@ -161,6 +161,60 @@
             display: block;
             margin-top: 15px;
         }
+
+        .performance-key {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .key-item {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .key-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .key-item-excellent {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .key-item-good {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .key-item-satisfactory {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .key-item-fail {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .key-category {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .key-range {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .key-description {
+            font-size: 13px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -171,6 +225,9 @@
             </button>
             <button class="tab-button" data-tab="details">
                 📋 Entered Details
+            </button>
+            <button class="tab-button" data-tab="key">
+                📊 Performance Scale
             </button>
         </div>
 
@@ -205,6 +262,31 @@
                 </tbody>
             </table>
             {% endif %}
+        </div>
+
+        <div class="tab-content" id="key">
+            <div class="performance-key">
+                <div class="key-item key-item-excellent">
+                    <div class="key-category">🏆 Excellent</div>
+                    <div class="key-range">85 - 100</div>
+                    <div class="key-description">Outstanding performance</div>
+                </div>
+                <div class="key-item key-item-good">
+                    <div class="key-category">👍 Good</div>
+                    <div class="key-range">70 - 84</div>
+                    <div class="key-description">Above average performance</div>
+                </div>
+                <div class="key-item key-item-satisfactory">
+                    <div class="key-category">⚖️ Satisfactory</div>
+                    <div class="key-range">50 - 69</div>
+                    <div class="key-description">Acceptable performance</div>
+                </div>
+                <div class="key-item key-item-fail">
+                    <div class="key-category">❌ Fail</div>
+                    <div class="key-range">Below 50</div>
+                    <div class="key-description">Needs improvement</div>
+                </div>
+            </div>
         </div>
 
         <div style="margin-top:30px; text-align:center;">
